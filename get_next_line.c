@@ -1,40 +1,53 @@
 #include "get_next_line.h"
-char *ft_strcpy(char *dst, const char *src);
+#include <stdio.h>
 
 char *get_next_line(int fd)
 {
-	char buf[BUFFER_SIZE + 1];
-	char *line;
+	char		buf[BUFFER_SIZE + 1];
+	char        *line;
+	static char *save;
+	char        read_byte;
+	size_t      byte_to_nl;
+	char        *tmp;
 
-	int ret = read(fd, buf, BUFFER_SIZE);
-	if (ret == 0)
+	line = NULL;
+	if (save)
 	{
-		write(STDOUT_FILENO, "EOF", sizeof("EOF"));
-		return (NULL);
+		byte_to_nl = ft_strchr_nl(save);
+		if (byte_to_nl)
+		{
+			line = ft_strnjoin(line, save, byte_to_nl);
+			tmp = save;
+			save = ft_strdup(&save[byte_to_nl]);
+			free(tmp);
+			return (line);
+		}
+		else
+		{
+			line = ft_strnjoin(line, save, ft_strlen(save));
+			free(save);
+			save = NULL;
+		}
 	}
-	else if (ret == -1)
+	while (1)
 	{
-		write(STDERR_FILENO, "ERROR READING", sizeof("ERROR READING"));
-		return (NULL);
+		read_byte = read(fd, buf, BUFFER_SIZE);
+		if (read_byte == 0)
+			break ;
+		else if (read_byte == -1)
+			return (NULL);
+		buf[read_byte] = '\0';
+		byte_to_nl = ft_strchr_nl(buf);
+		if (byte_to_nl)
+		{
+			save = ft_strdup(&buf[byte_to_nl]);
+			line = ft_strnjoin(line, buf, byte_to_nl);
+			return (line);
+		}
+		else
+		{
+			line = ft_strnjoin(line, buf, BUFFER_SIZE);
+		}
 	}
-	buf[ret] = '\0';
-	line = malloc(sizeof(char) * (ret + 1));
-	if (!line)
-	{
-		write(STDERR_FILENO, "MALLOC ERROR", sizeof("MALLOC ERROR"));
-		return (NULL);
-	}
-	ft_strcpy(line, buf);
 	return (line);
-}
-
-char *ft_strcpy(char *dst, const char *src)
-{
-	char *head;
-
-	head = dst;
-	while (*src)
-		*dst++ = *src++;
-	*dst = '\0';
-	return (head);
 }
