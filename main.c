@@ -7,29 +7,35 @@ void ft_putstr_fd(char *s, int fd);
 
 int main(int argc, char *argv[])
 {
-	char *ret;
+	// char *ret;
 	if (argc < 2) error(1);
 	for (int i = 1; i < argc; i++)
 	{
-    	int fd = open(argv[i], O_RDONLY);
-    	if (fd == -1) error(2);
-    	// char *ret = get_next_line(fd);
-    	// if (ret == NULL) error(3);
+		int fd = open(argv[i], O_RDONLY);
+		if (fd == -1) error(2);
+		char *ret = get_next_line(fd);
+		free(ret);
+		// if (ret == NULL) error(3);
+		printf("ret: %s\n", ret);
 		// ft_putstr_fd(ret, STDOUT_FILENO);
-    	// ret = get_next_line(fd);
-    	// if (ret == NULL) error(3);
+		ret = get_next_line(fd);
+		free(ret);
+		printf("ret: %s\n", ret);
+		// if (ret == NULL) error(3);
 		// ft_putstr_fd(ret, STDOUT_FILENO);
-    	// ret = get_next_line(fd);
-    	// if (ret == NULL) error(3);
+		ret = get_next_line(fd);
+		printf("ret: %s\n", ret);
+		// if (ret == NULL) error(3);
 		// ft_putstr_fd(ret, STDOUT_FILENO);
-    	// // ret = get_next_line(fd);
-    	// // if (ret == NULL) error(3);
+		// // ret = get_next_line(fd);
+		// // if (ret == NULL) error(3);
 		// // ft_putstr_fd(ret, STDOUT_FILENO);
-		while ((ret = get_next_line(fd)))
-			ft_putstr_fd(ret, STDOUT_FILENO);
-		error(3);
+		// while ((ret = get_next_line(fd)))
+			// ft_putstr_fd(ret, STDOUT_FILENO);
+		// error(3);
 	}
 }
+
 
 void error(int error_num)
 {
@@ -42,9 +48,15 @@ void error(int error_num)
 	exit(0);
 }
 
+
 void ft_putstr_fd(char *s, int fd)
 {
 	if (!s)
 		return ;
 	write(fd, s, ft_strlen(s));
+}
+
+__attribute__((destructor))
+static void destructor() {
+	system("leaks -q a.out");
 }

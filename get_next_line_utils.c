@@ -16,10 +16,14 @@ char	*ft_strdup(const char *s1)
 {
 	char	*p;
 	char	*head;
+	size_t	count;
 
-	p = malloc(sizeof(char) * ft_strlen(s1) + 1);
+	count = ft_strlen(s1);
+	if (!count)
+		return (NULL);
+	p = malloc(sizeof(char) * (count + 1));
 	if (!p)
-    	return (NULL);
+		return (NULL);
 	head = p;
 	while (*s1)
 		*p++ = *s1++;
@@ -38,16 +42,15 @@ size_t	ft_strchr_nl(const char *s)
 	return (0);
 }
 
-char    *ft_strnjoin(char const *s1, char const *s2, size_t n)
+char	*ft_strnjoin(char const *s1, char const *s2, size_t n)
 {
 	char	*p;
 	char	*head;
 
 	p = malloc(ft_strlen(s1) + n + 1);
 	if (!p)
-    	return (NULL);
+		return (NULL);
 	head = p;
-
 	if (s1)
 		while (*s1)
 			*p++ = *s1++;
