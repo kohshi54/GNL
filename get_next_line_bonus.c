@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kyamaguc <kyamaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/13 21:37:23 by kyamaguc          #+#    #+#             */
-/*   Updated: 2023/04/14 01:36:26 by kyamaguc         ###   ########.fr       */
+/*   Created: 2023/04/13 22:14:23 by kyamaguc          #+#    #+#             */
+/*   Updated: 2023/04/14 01:28:24 by kyamaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static size_t	my_read(int fd, char *buf, char *line)
 {
@@ -76,14 +76,14 @@ char	*get_next_line(int fd)
 {
 	char		buf[BUFFER_SIZE + 1];
 	char		*line;
-	static char	*save;
+	static char	*save[OPEN_MAX];
 
 	line = NULL;
-	if (save)
-		if (check_save(&line, &save))
+	if (save[fd])
+		if (check_save(&line, &save[fd]))
 			return (line);
 	while (my_read(fd, buf, line))
-		if (check_buf(&line, &save, buf))
+		if (check_buf(&line, &save[fd], buf))
 			return (line);
 	return (line);
 }

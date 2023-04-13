@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kyamaguc <kyamaguc@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/13 21:39:35 by kyamaguc          #+#    #+#             */
-/*   Updated: 2023/04/14 01:35:45 by kyamaguc         ###   ########.fr       */
+/*   Created: 2023/04/13 22:14:44 by kyamaguc          #+#    #+#             */
+/*   Updated: 2023/04/14 01:37:34 by kyamaguc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *s)
 {
